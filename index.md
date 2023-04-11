@@ -1,5 +1,5 @@
 ---
-title: lizi
+title: 栗子和懒懒
 layout: home
 ---
 
