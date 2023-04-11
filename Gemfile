@@ -1,7 +1,7 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-# to publish on github page
-gem 'github-pages', group: :jekyll_plugins
+gem "jekyll", "~> 4.3" # installed by `gem jekyll`
+# gem "webrick"        # required when using Ruby >= 3 and Jekyll <= 4.2.2
 
-# to publich without github page
-#gem "jekyll"
+gem "just-the-docs", "0.4.2" # pinned to the current release
+# gem "just-the-docs"        # always download the latest release
