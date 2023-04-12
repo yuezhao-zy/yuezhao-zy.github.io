@@ -34,6 +34,6 @@ search:
 
 heading_anchors: true
 favicon_ico: "/assets/images/favicon.ico"  
-
+page_excerpts: true
   #aux_links:
   #Template Repository: https://github.com/just-the-docs/just-the-docs-template
