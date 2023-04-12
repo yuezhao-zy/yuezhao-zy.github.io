@@ -1,14 +1,13 @@
 ---
 layout: default
-title: Configuration
-nav_order: 2
+title: Code
+parent: UI Components
+has_children: true
+nav_order: 6
 ---
 
-# Configuration
+# Code
 {: .no_toc }
-
-Just the Docs has some specific configuration parameters that can be defined in your Jekyll site's \_config.yml file.
-{: .fs-6 .fw-300 }
 
 ## Table of contents
 {: .no_toc .text-delta }
@@ -18,63 +17,87 @@ Just the Docs has some specific configuration parameters that can be defined in 
 
 ---
 
-View this site's [\_config.yml](https://github.com/just-the-docs/just-the-docs/tree/main/_config.yml) file as an example.
+## Inline code
 
-## Site logo
+Code can be rendered inline by wrapping it in single back ticks.
 
-```yaml
-# Set a path/url to a logo that will be displayed instead of the title
-logo: "/assets/images/just-the-docs.png"
+<div class="code-example" markdown="1">
+Lorem ipsum dolor sit amet, `<inline code snippet>` adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+## Heading with `<inline code snippet>` in it.
+{: .no_toc }
+</div>
+```markdown
+Lorem ipsum dolor sit amet, `<inline code snippet>` adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+## Heading with `<inline code snippet>` in it.
 ```
 
-## Site favicon
+---
 
-```yaml
-# Set a path/url to a favicon that will be displayed by the browser
-favicon_ico: "/assets/images/favicon.ico"
+## Syntax highlighted code blocks
+
+Use Jekyll's built-in syntax highlighting with Rouge for code blocks by using three backticks, followed by the language name:
+
+<div class="code-example" markdown="1">
+```js
+// Javascript code with syntax highlighting.
+var fun = function lang(l) {
+  dateformat.i18n = require('./lang/' + l)
+  return true;
+}
+```
+</div>
+{% highlight markdown %}
+```js
+// Javascript code with syntax highlighting.
+var fun = function lang(l) {
+  dateformat.i18n = require('./lang/' + l)
+  return true;
+}
+```
+{% endhighlight %}
+
+---
+
+## Code blocks with rendered examples
+
+To demonstrate front end code, sometimes it's useful to show a rendered example of that code. After including the styles from your project that you'll need to show the rendering, you can use a `<div>` with the `code-example` class, followed by the code block syntax. If you want to render your output with Markdown instead of HTML, use the `markdown="1"` attribute to tell Jekyll that the code you are rendering will be in Markdown format... This is about to get meta...
+
+<div class="code-example" markdown="1">
+
+<div class="code-example" markdown="1">
+
+[Link button](http://example.com/){: .btn }
+
+</div>
+```markdown
+[Link button](http://example.com/){: .btn }
 ```
 
-If the path to your favicon is `/favicon.ico`, you can leave `favicon_ico` unset.
+</div>
+{% highlight markdown %}
+<div class="code-example" markdown="1">
 
-## Search
+[Link button](http://example.com/){: .btn }
 
-```yaml
-# Enable or disable the site search
-# Supports true (default) or false
-search_enabled: true
-
-search:
-  # Split pages into sections that can be searched individually
-  # Supports 1 - 6, default: 2
-  heading_level: 2
-  # Maximum amount of previews per search result
-  # Default: 3
-  previews: 3
-  # Maximum amount of words to display before a matched word in the preview
-  # Default: 5
-  preview_words_before: 5
-  # Maximum amount of words to display after a matched word in the preview
-  # Default: 10
-  preview_words_after: 10
-  # Set the search token separator
-  # Default: /[\s\-/]+/
-  # Example: enable support for hyphenated search words
-  tokenizer_separator: /[\s/]+/
-  # Display the relative url in search results
-  # Supports true (default) or false
-  rel_url: true
-  # Enable or disable the search button that appears in the bottom right corner of every page
-  # Supports true or false (default)
-  button: false
+</div>
+```markdown
+[Link button](http://example.com/){: .btn }
 ```
+{% endhighlight %}
 
-## Mermaid Diagrams
+---
+
+## Mermaid diagram code blocks
 {: .d-inline-block }
 
 New (v0.4.0)
 {: .label .label-green }
 
-The minimum configuration requires the key for `version` ([from jsDelivr](https://cdn.jsdelivr.net/npm/mermaid/)) in `_config.yml`:
+[Mermaid](https://mermaid-js.github.io/mermaid/) allows you to add diagrams and visualizations using Markdown code blocks. **It is disabled by default**. However, you can turn on support for mermaid by adding a `mermaid` key to your `_config.yml`.
+
+The minimum configuration requires a `version` key (matching a version in [jsDelivr](https://cdn.jsdelivr.net/npm/mermaid/)):
 
 ```yaml
 mermaid:
@@ -83,238 +106,90 @@ mermaid:
   version: "9.1.3"
 ```
 
-Provide a `path` instead of a `version` key to load the mermaid library from a local file.
+Additional configuration options are loaded through `_includes/mermaid_config.js`. By default, the contents of the file are the empty object:
 
-See [the Code documentation]({% link docs/ui-components/code.md %}#mermaid-diagram-code-blocks) for more configuration options and information.
-
-## Aux links
-
-```yaml
-# Aux links for the upper right navigation
-aux_links:
-  "Just the Docs on GitHub":
-    - "//github.com/just-the-docs/just-the-docs"
-
-# Makes Aux links open in a new tab. Default is false
-aux_links_new_tab: false
+```js
+// _includes/mermaid_config.js
+{}
 ```
 
-## Heading anchor links
+This loads the default settings.
 
-```yaml
-# Heading anchor links appear on hover over h1-h6 tags in page content
-# allowing users to deep link to a particular heading on a page.
-#
-# Supports true (default) or false
-heading_anchors: true
+The contents of this object should follow [mermaid's configuration API](https://mermaid-js.github.io/mermaid/#/./Setup?id=configuration). For example, to override the theme, change `_includes/mermaid_config.js` to:
+
+```js
+// _includes/mermaid_config.js
+{
+  theme: "forest"
+}
 ```
 
-## External navigation links
+Once mermaid is installed, it can be used in markdown files. The markdown for a simple flowchart example might look like the following:
+
+{% highlight markdown %}
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+{% endhighlight %}
+
+which renders:
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
+*Note: for demonstration purposes, we've enabled mermaid on this site. It is still disabled by default, and users need to opt-in to use it.*
+
+### Using a local mermaid library
+
+In order to use a local version of the mermaid library instead of one provided by jsDelivr, you can specify a `path` key in the mermaid configuration instead of a `version` key.
+
+```yaml
+mermaid:
+  # To load mermaid from a local file use the `path` key to specify the location of the library instead; e.g.
+  path: "/assets/js/mermaid.min.js"
+```
+
+### Using mermaid with AsciiDoc
+
+Users of [AsciiDoc](https://asciidoc.org/) (e.g. via [jekyll-asciidoc](https://github.com/asciidoctor/jekyll-asciidoc)) may need additional configuration to use mermaid.
+
+By default, AsciiDoc generates HTML markup that mermaid cannot properly parse. The simplest way to resolve this is to use a [passthrough block](https://docs.asciidoctor.org/asciidoc/latest/pass/pass-block/):
+{% highlight asciidoc %}
+++++
+<pre class="language-mermaid">
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+</pre>
+++++
+{% endhighlight %}
+
+Alternatively, community member [@flyx](https://.github.com/flyx) has contributed a Ruby extension that does not require extra markup. The extension is available [as a GitHub Gist](https://gist.github.com/flyx/9fff080cf4edc95d495bc661a002232c). Thank you to [@flyx](https://.github.com/flyx)!
+
+The [asciidoctor-diagram](https://docs.asciidoctor.org/diagram-extension/latest/) extension which also supports mermaid is not recommended for use with Just the Docs, since it requires separate configuration e.g. for theming, and is known to not be trivial to set up.
+
+## Copy button
 {: .d-inline-block }
 
 New (v0.4.0)
 {: .label .label-green }
 
-External links can be added to the navigation through the `nav_external_links` option.
-See [Navigation Structure]({% link docs/navigation-structure.md %}#external-navigation-links) for more details.
-
-## Footer content
+The copy button for code blocks can be enabled or disabled via the `enable_copy_code_button` key in `_config.yml`. By default, the value of this key is `false`; users need to opt-in.
 
 ```yaml
-# Footer content
-# appears at the bottom of every page's main content
-# Note: The footer_content option is deprecated and will be removed in a future major release. Please use `_includes/footer_custom.html` for more robust
-markup / liquid-based content.
-footer_content: "Copyright &copy; 2017-2020 Patrick Marsceill. Distributed by an <a href=\"https://github.com/just-the-docs/just-the-docs/tree/main/LICENSE.txt\">MIT license.</a>"
-
-# Footer last edited timestamp
-last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
-last_edit_time_format: "%b %e %Y at %I:%M %p" # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html
-
-# Footer "Edit this page on GitHub" link text
-gh_edit_link: true # show or hide edit this page link
-gh_edit_link_text: "Edit this page on GitHub."
-gh_edit_repository: "https://github.com/just-the-docs/just-the-docs" # the github URL for your repo
-gh_edit_branch: "main" # the branch that your docs is served from
-# gh_edit_source: docs # the source that your files originate from
-gh_edit_view_mode: "tree" # "tree" or "edit" if you want the user to jump into the editor immediately
+# For copy button on code
+enable_copy_code_button: true
 ```
 
-_note: `footer_content` is deprecated, but still supported. For a better experience we have moved this into an include called `_includes/footer_custom.html` which will allow for robust markup / liquid-based content._
-
-- the "page last modified" data will only display if a page has a key called `last_modified_date`, formatted in some readable date format
-- `last_edit_time_format` uses Ruby's DateTime formatter; see examples and more information [at this link.](https://apidock.com/ruby/DateTime/strftime)
-- `gh_edit_repository` is the URL of the project's GitHub repository
-- `gh_edit_branch` is the branch that the docs site is served from; defaults to `main`
-- `gh_edit_source` is the source directory that your project files are stored in (should be the same as [site.source](https://jekyllrb.com/docs/configuration/options/))
-- `gh_edit_view_mode` is `"tree"` by default, which brings the user to the github page; switch to `"edit"` to bring the user directly into editing mode
-
-## Color scheme
-
-```yaml
-# Color scheme supports "light" (default) and "dark"
-color_scheme: dark
-```
-
-<button class="btn js-toggle-dark-mode">Preview dark color scheme</button>
-
-<script>
-const toggleDarkMode = document.querySelector('.js-toggle-dark-mode');
-
-jtd.addEvent(toggleDarkMode, 'click', function(){
-  if (jtd.getTheme() === 'dark') {
-    jtd.setTheme('light');
-    toggleDarkMode.textContent = 'Preview dark color scheme';
-  } else {
-    jtd.setTheme('dark');
-    toggleDarkMode.textContent = 'Return to the light side';
-  }
-});
-</script>
-
-See [Customization]({% link docs/customization.md %}) for more information.
-
-## Callouts
-{: .d-inline-block }
-
-New (v0.4.0)
-{: .label .label-green }
-
-To use this feature, you need to configure a `color` and (optionally) `title` for each kind of callout you want to use, e.g.:
-
-```yaml
-callouts:
-  warning:
-    title: Warning
-    color: red
-```
-
-This uses the color `$red-000` for the background of the callout, and `$red-300` for the title and box decoration.[^dark] You can then style a paragraph as a `warning` callout like this:
-
-```markdown
-{: .warning }
-A paragraph...
-```
-
-[^dark]:
-    If you use the `dark` color scheme, this callout uses `$red-300` for the background, and `$red-000` for the title.
-
-The colors `grey-lt`, `grey-dk`, `purple`, `blue`, `green`, `yellow`, and `red` are predefined; to use a custom color, you need to define its `000` and `300` levels in your SCSS files. For example, to use `pink`, add the following to your `_sass/custom/setup.scss` file:
-
-```scss
-$pink-000: #f77ef1;
-$pink-100: #f967f1;
-$pink-200: #e94ee1;
-$pink-300: #dd2cd4;
-```
-
-You can override the default `opacity` of the background for a particular callout, e.g.:
-
-```yaml
-callouts:
-  custom:
-    color: pink
-    opacity: 0.3
-```
-
-You can change the default opacity (`0.2`) for all callouts, e.g.:
-
-```yaml
-callouts_opacity: 0.3
-```
-
-You can also adjust the overall level of callouts.
-The value of `callouts_level` is either `quiet` or `loud`;
-`loud` increases the saturation and lightness of the backgrounds.
-The default level is `quiet` when using the `light` or custom color schemes,
-and `loud` when using the `dark color scheme.`
-
-See [Callouts]({% link docs/ui-components/callouts.md %}) for more information.
-
-## Google Analytics
-
-{: .warning }
-> [Google Analytics 4 will replace Universal Analytics](https://support.google.com/analytics/answer/11583528). On **July 1, 2023**, standard Universal Analytics properties will stop processing new hits. The earlier you migrate, the more historical data and insights you will have in Google Analytics 4.
-
-Universal Analytics (UA) and Google Analytics 4 (GA4) properties are supported.
-
-```yaml
-# Google Analytics Tracking (optional)
-# Supports a CSV of tracking ID strings (eg. "UA-1234567-89,G-1AB234CDE5")
-ga_tracking: UA-2709176-10
-ga_tracking_anonymize_ip: true # Use GDPR compliant Google Analytics settings (true/nil by default)
-```
-
-### Multiple IDs
-{: .d-inline-block .no_toc }
-
-New (v0.4.0)
-{: .label .label-green }
-
-This theme supports multiple comma-separated tracking IDs. This helps seamlessly transition UA properties to GA4 properties by tracking both for a while.
-
-```yaml
-ga_tracking: "UA-1234567-89,G-1AB234CDE5"
-```
-
-## Document collections
-
-By default, the navigation and search include normal [pages](https://jekyllrb.com/docs/pages/).
-You can also use [Jekyll collections](https://jekyllrb.com/docs/collections/) which group documents semantically together.
-
-{: .warning }
-> Collection folders always start with an underscore (`_`), e.g. `_tests`. You won't see your collections if you omit the prefix.
-
-For example, put all your test files in the `_tests` folder and create the `tests` collection:
-
-```yaml
-# Define Jekyll collections
-collections:
-  # Define a collection named "tests", its documents reside in the "_tests" directory
-  tests:
-    permalink: "/:collection/:path/"
-    output: true
-
-just_the_docs:
-  # Define which collections are used in just-the-docs
-  collections:
-    # Reference the "tests" collection
-    tests:
-      # Give the collection a name
-      name: Tests
-      # Exclude the collection from the navigation
-      # Supports true or false (default)
-      # nav_exclude: true
-      # Fold the collection in the navigation
-      # Supports true or false (default)
-      # nav_fold: true  # note: this option is new in v0.4
-      # Exclude the collection from the search
-      # Supports true or false (default)
-      # search_exclude: true
-```
-
-The navigation for all your normal pages (if any) is displayed before those in collections.
-
-You can reference multiple collections.
-This creates categories in the navigation with the configured names.
-
-```yaml
-collections:
-  tests:
-    permalink: "/:collection/:path/"
-    output: true
-  tutorials:
-    permalink: "/:collection/:path/"
-    output: true
-
-just_the_docs:
-  collections:
-    tests:
-      name: Tests
-    tutorials:
-      name: Tutorials
-```
-
-When *all* your pages are in a single collection, its name is not displayed.
-
-The navigation for each collection is a separate name space for page titles: a page in one collection cannot be a child of a page in a different collection, or of a normal page.
+Note that this feature requires JavaScript; if JavaScript is disabled in the browser, this feature will not work.
