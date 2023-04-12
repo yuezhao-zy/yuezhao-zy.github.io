@@ -1,4 +1,4 @@
-title: Just the Docs Template
+title: 栗子和懒懒
 description: A starter template for a Jeykll site using the Just the Docs theme!
 theme: just-the-docs
 
@@ -32,7 +32,7 @@ search:
   # Supports true or false (default)
   button: false
 
-
+heading_anchors: true
 favicon_ico: "/assets/images/favicon.ico"  
 
   #aux_links:
