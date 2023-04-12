@@ -1,6 +1,7 @@
 ---
 title: 栗子和懒懒
 layout: home
+nav_order: 2
 ---
 
 
